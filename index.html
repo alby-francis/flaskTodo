@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+{% block body %}
+{% with messages = get_flashed_messages()  %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">x</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+  <h3 class="my-4 text-center">Todo</h3>
+
+      <div class="col-md-4 offset-md-4" style="width:50%">
+        <form action="{{url_for('add_todo')}}" method="POST">
+          <div class="form-group">
+            <h6>Enter Todo Title :</h6>
+            <input type="text" class="form-control" name="title" placeholder="Todo Title">
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" name="status" placeholder="Status" value="Not Done">
+          </div>
+          <div class="form-group">
+            <!-- <input type="text" class="form-control" name="priorty" placeholder="Priorty"> -->
+            <h6>Selct Priorty :</h6>
+            <select class="form-control" name="priorty">
+              <option value ="Low"selected>Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-block">
+            Add Todo 
+          </button>
+        </form>
+      </div>
+
+  <div class="col-md-4 offset-md-4" style="width:50%">
+    <form action="{{url_for('search')}}" method="POST">
+      <div class="form-group">
+        <h6 class="my-4 text-center">Search Todo</h6>
+        <input type="text" class="form-control search" name="searchElement" placeholder="Search...">
+      </div>
+      <button class="btn btn-primary btn-block">
+        Search 
+      </button>
+    </form>
+  </div>
+
+  {% if searchElement %}
+  <h3 class="my-4 text-center">Search Result</h3>
+  {% else%}
+  <h3 class="my-4 text-center">Todo List</h3>
+  {% endif %}
+
+  <div class="row">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+      <thead>
+        <tr>
+          <th>TASKS</th>
+          <th>STATUS</th>
+          <th>PRIORTY</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in list_users %}
+        <tr>
+          <td>{{row[1]}}</td>
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+          <td class="text-right" width="200" >
+            {% if row[2] == 'Done' %}
+            <a href="/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Edit</a>
+            <a href="/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Delete</a>
+            {% else %}
+            <a href="/done/{{row[0]}}" class="btn btn-success btn-sm btn-done">Done</a>
+            <a href="/edit/{{row[0]}}" class="btn btn-secondary btn-sm">Edit</a>
+            <a href="/delete/{{row[0]}}" class="btn btn-danger btn-delete btn-sm">Delete</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

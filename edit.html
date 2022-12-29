@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="row">
+    <div class="col-md-4 offset-md-4">
+      <div class="card card-body">
+        <form action="/update/{{todo.id}}" method="POST">
+          <div class="form-group">
+            <input type="text" name="title" value="{{todo.title}}" class="form-control">
+          </div>
+          <div class="form-group">
+            <!-- <input type="text" name="status" value="{{todo.status}}" class="form-control"> -->
+            <select class="form-control" name="status">
+                {% if todo.status == 'Done' %}
+                <option selected value ="Done">Done</option>
+                <option value="Not Done">Not Done</option>
+                {% elif todo.status == 'Not Done' %}
+                <option value="Done">Done</option>
+                <option selected value ="Not Done">Not Done</option>
+                {% endif %}
+              </select>            
+          </div>
+          <div class="form-group">
+            <!-- <input type="text" name="priorty" value="{{todo.priorty}}" class="form-control"> -->
+            <select class="form-control" name="priorty">
+                {% if todo.priorty == 'Low' %}
+                <option selected value ="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                {% elif todo.priorty == 'Medium' %}
+                <option value ="Low">Low</option>
+                <option selected value="Medium">Medium</option>
+                <option value="High">High</option>
+                {% elif todo.priorty == 'High' %}
+                <option value ="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option selected value="High">High</option>
+                {% endif %}
+              </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
